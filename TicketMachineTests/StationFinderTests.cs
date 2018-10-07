@@ -20,5 +20,16 @@ namespace TicketMachineTests
             Assert.AreEqual(1, stations.Count());
             Assert.AreEqual("Dartford", stations.First());
         }
+
+        [Test]
+        public void FindsNextLettersForDartford()
+        {
+            StationFinder stationFinder = new StationFinder();
+            Suggestions suggestions = stationFinder.GetSuggestions("Dartfo");
+            var nextLetters = suggestions.NextLetters;
+            Assert.AreEqual(1, nextLetters.Count());
+            Assert.AreEqual('r', nextLetters.First());
+        }
+
     }
 }

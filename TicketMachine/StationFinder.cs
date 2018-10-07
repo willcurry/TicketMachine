@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TicketMachine
 {
@@ -19,10 +17,20 @@ namespace TicketMachine
                 .Select(station => station.Trim());
         }
 
+        private char FindCharAfterInput(string input, string station)
+        {
+            int index = input.Length;
+            return station.Substring(index, 1)[0];
+        }
+
         public Suggestions GetSuggestions(string userInput)
         {
             IEnumerable<string> matchingStations = Stations.Where(station => station.Contains(userInput));
-            Suggestions suggestions = new Suggestions(matchingStations);
+            List<char> nextLetters = matchingStations
+                .Where(station => userInput.Length != station.Length)
+                .Select(station => FindCharAfterInput(userInput, station))
+                .ToList();
+            Suggestions suggestions = new Suggestions(matchingStations, nextLetters);
             return suggestions;
         }
     }
