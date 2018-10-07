@@ -19,9 +19,11 @@ namespace TicketMachine
                 .Select(station => station.Trim());
         }
 
-        public IEnumerable<string> GetSuggestions(string userInput)
+        public Suggestions GetSuggestions(string userInput)
         {
-            return Stations.Where(station => station.Contains(userInput));
+            IEnumerable<string> matchingStations = Stations.Where(station => station.Contains(userInput));
+            Suggestions suggestions = new Suggestions(matchingStations);
+            return suggestions;
         }
     }
 }

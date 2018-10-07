@@ -15,9 +15,10 @@ namespace TicketMachineTests
         public void FindsDartford()
         {
             StationFinder stationFinder = new StationFinder();
-            IEnumerable<string> results = stationFinder.GetSuggestions("Dartford");
-            Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("Dartford", results.First());
+            Suggestions suggestions = stationFinder.GetSuggestions("Dartford");
+            IEnumerable<string> stations = suggestions.Stations;
+            Assert.AreEqual(1, stations.Count());
+            Assert.AreEqual("Dartford", stations.First());
         }
     }
 }
