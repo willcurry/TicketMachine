@@ -19,19 +19,17 @@ namespace TicketMachine
 
         private char FindCharAfterInput(string input, string station)
         {
-            int index = input.Length;
-            return station.Substring(index, 1)[0];
+            return station[input.Length];
         }
 
         public Suggestions GetSuggestions(string userInput)
         {
             IEnumerable<string> matchingStations = Stations.Where(station => station.Contains(userInput));
             List<char> nextLetters = matchingStations
-                .Where(station => userInput.Length != station.Length)
+                .Where(station => userInput.Length < station.Length)
                 .Select(station => FindCharAfterInput(userInput, station))
                 .ToList();
-            Suggestions suggestions = new Suggestions(matchingStations, nextLetters);
-            return suggestions;
+            return new Suggestions(matchingStations, nextLetters);
         }
     }
 }

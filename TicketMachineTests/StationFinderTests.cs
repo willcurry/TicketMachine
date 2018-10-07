@@ -11,10 +11,17 @@ namespace TicketMachineTests
     [TestFixture]
     public class StationFinderTests
     {
-        [Test]
-        public void FindsDartford()
+        StationFinder stationFinder; 
+
+        [SetUp]
+        public void SetupBeforeEachTest()
         {
-            StationFinder stationFinder = new StationFinder();
+            stationFinder = new StationFinder();
+        }
+
+        [Test]
+        public void SuggestsDartford()
+        {
             Suggestions suggestions = stationFinder.GetSuggestions("Dartford");
             IEnumerable<string> stations = suggestions.Stations;
             Assert.AreEqual(1, stations.Count());
@@ -22,14 +29,26 @@ namespace TicketMachineTests
         }
 
         [Test]
-        public void FindsNextLettersForDartford()
+        public void SuggestsNextLettersForDartford()
         {
-            StationFinder stationFinder = new StationFinder();
             Suggestions suggestions = stationFinder.GetSuggestions("Dartfo");
-            var nextLetters = suggestions.NextLetters;
+            List<char> nextLetters = suggestions.NextLetters;
             Assert.AreEqual(1, nextLetters.Count());
             Assert.AreEqual('r', nextLetters.First());
         }
 
+        [Test]
+        public void SuggestsNextLettersAndStationsForDart()
+        {
+            List<string> expectedStations = new List<string>();
+            expectedStations.Add("Dartford");
+            expectedStations.Add("Darton");
+            List<char> expectedLetters = new List<char>();
+            expectedLetters.Add('f');
+            expectedLetters.Add('o');
+            Suggestions suggestions = stationFinder.GetSuggestions("Dart");
+            CollectionAssert.AreEqual(expectedStations, suggestions.Stations);
+            CollectionAssert.AreEqual(expectedLetters, suggestions.NextLetters);
+        }
     }
 }
