@@ -32,7 +32,7 @@ namespace TicketMachineTests
         public void SuggestsNextLettersForDartford()
         {
             Suggestions suggestions = stationFinder.GetSuggestions("Dartfo");
-            List<char> nextLetters = suggestions.NextLetters;
+            IEnumerable<char> nextLetters = suggestions.NextLetters;
             Assert.AreEqual(1, nextLetters.Count());
             Assert.AreEqual('r', nextLetters.First());
         }
@@ -75,6 +75,17 @@ namespace TicketMachineTests
             expectedLetters.Add('h');
             CollectionAssert.AreEqual(expectedStations, suggestions.Stations);
             CollectionAssert.AreEqual(expectedLetters, suggestions.NextLetters);
+        }
+
+        [Test]
+        public void SearchingAnInvalidStationReturnsEmptySuggestions()
+        {
+            Suggestions suggestions = stationFinder.GetSuggestions("JHEFHkgrhngkjrnejkng");
+            Assert.IsEmpty(suggestions.Stations);
+            Assert.IsEmpty(suggestions.NextLetters);
+            suggestions = stationFinder.GetSuggestions("  ");
+            Assert.IsEmpty(suggestions.Stations);
+            Assert.IsEmpty(suggestions.NextLetters);
         }
     }
 }
