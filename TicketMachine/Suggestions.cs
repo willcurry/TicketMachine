@@ -8,5 +8,7 @@ namespace TicketMachine
 {
     public class Suggestions
     {
+        List<char> NextLetters { get; set; }
+        public IEnumerable<string> Stations { get; set; }
     }
 }
