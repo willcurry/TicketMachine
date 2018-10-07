@@ -18,17 +18,22 @@ namespace TicketMachine
                 .OrderBy(station => station);
         }
 
-        private char FindCharAfterInput(string input, string station)
+        private char FindNextCharacter(string input, string station)
         {
             return station[input.Length];
+        }
+
+        private bool HasMoreCharacters(string input, string station)
+        {
+            return input.Length < station.Length;
         }
 
         public Suggestions GetSuggestions(string userInput)
         {
             IEnumerable<string> matchingStations = Stations.Where(station => station.StartsWith(userInput));
             List<char> nextLetters = matchingStations
-                .Where(station => userInput.Length < station.Length)
-                .Select(station => FindCharAfterInput(userInput, station))
+                .Where(station => HasMoreCharacters(userInput, station))
+                .Select(station => FindNextCharacter(userInput, station))
                 .ToList();
             return new Suggestions(matchingStations, nextLetters);
         }
