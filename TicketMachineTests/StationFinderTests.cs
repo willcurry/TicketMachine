@@ -63,5 +63,18 @@ namespace TicketMachineTests
             Suggestions suggestions = stationFinder.GetSuggestions("Dum");
             CollectionAssert.AreEqual(expectedStations, suggestions.Stations);
         }
+
+        [Test]
+        public void FindsSuggestionsWhenInputHasDifferentCasing()
+        {
+            Suggestions suggestions = stationFinder.GetSuggestions("broMleY sout");
+            IEnumerable<string> stations = suggestions.Stations;
+            List<string> expectedStations = new List<string>();
+            expectedStations.Add("Bromley South");
+            List<char> expectedLetters = new List<char>();
+            expectedLetters.Add('h');
+            CollectionAssert.AreEqual(expectedStations, suggestions.Stations);
+            CollectionAssert.AreEqual(expectedLetters, suggestions.NextLetters);
+        }
     }
 }

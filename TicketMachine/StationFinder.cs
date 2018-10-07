@@ -30,7 +30,7 @@ namespace TicketMachine
 
         public Suggestions GetSuggestions(string userInput)
         {
-            IEnumerable<string> matchingStations = Stations.Where(station => station.StartsWith(userInput));
+            IEnumerable<string> matchingStations = Stations.Where(station => station.StartsWith(userInput, StringComparison.InvariantCultureIgnoreCase));
             List<char> nextLetters = matchingStations
                 .Where(station => HasMoreCharacters(userInput, station))
                 .Select(station => FindNextCharacter(userInput, station))
