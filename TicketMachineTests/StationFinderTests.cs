@@ -50,5 +50,18 @@ namespace TicketMachineTests
             CollectionAssert.AreEqual(expectedStations, suggestions.Stations);
             CollectionAssert.AreEqual(expectedLetters, suggestions.NextLetters);
         }
+
+        [Test]
+        public void ReturnsSuggestionsInAlphabeticalOrder()
+        {
+            List<string> expectedStations = new List<string>();
+            expectedStations.Add("Dumbarton Central");
+            expectedStations.Add("Dumbarton East");
+            expectedStations.Add("Dumbreck");
+            expectedStations.Add("Dumfries");
+            expectedStations.Add("Dumpton Park");
+            Suggestions suggestions = stationFinder.GetSuggestions("Dum");
+            CollectionAssert.AreEqual(expectedStations, suggestions.Stations);
+        }
     }
 }

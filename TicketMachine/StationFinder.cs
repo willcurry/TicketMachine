@@ -13,8 +13,9 @@ namespace TicketMachine
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "stations.txt");
             Stations = File.ReadLines(path)
                 .Select(station => station.Split(','))
-                .SelectMany(i => i)
-                .Select(station => station.Trim());
+                .SelectMany(station => station)
+                .Select(station => station.Trim())
+                .OrderBy(station => station);
         }
 
         private char FindCharAfterInput(string input, string station)
@@ -24,7 +25,7 @@ namespace TicketMachine
 
         public Suggestions GetSuggestions(string userInput)
         {
-            IEnumerable<string> matchingStations = Stations.Where(station => station.Contains(userInput));
+            IEnumerable<string> matchingStations = Stations.Where(station => station.StartsWith(userInput));
             List<char> nextLetters = matchingStations
                 .Where(station => userInput.Length < station.Length)
                 .Select(station => FindCharAfterInput(userInput, station))
